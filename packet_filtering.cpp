@@ -6,19 +6,19 @@
 
 string generate_filter_expression(bool flag_tcp, bool flag_smtp, bool flag_cookies) {
 
-    // Part 1: parsing packets
+    // ETH-IP
     if (!(flag_tcp | flag_smtp | flag_cookies))
         return FILTER_ALL;
 
-    // Part 2: TCP flows
+    // ETH-IP-TCP
     if (flag_tcp)
         return FILTER_TCP;
 
-    // Part 3: email traffic
+    // ETH-IP-TCP-SMTP
     if (flag_smtp)
         return FILTER_SMTP;
 
-    // Extra Credit: HTTP cookies
+    // ETH-IP-TCP-HTTP
     if (flag_cookies)
         return FILTER_HTTP;
 

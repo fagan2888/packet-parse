@@ -102,7 +102,6 @@ PayloadParser::PayloadParser(const string &client, const string &server) {
             clog << "Sender: " << latest_email.mail_from << endl;
             clog << "Receiver: " << latest_email.rcpt_to << endl;
             clog << "Accepted: " << (latest_email.accepted ? string("yes") : string("no")) << endl;
-            // clog << "Length of message: " << latest_email.data.length() << endl;
             clog << endl;
         }
     }

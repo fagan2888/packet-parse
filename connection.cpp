@@ -131,7 +131,6 @@ void Connection::filter_duplicates(const int dir) {
     for (TCPPacket &packet : apd) {
         if (VERBOSE_DEBUG) clog << "checking duplicates: #" << packet.id << endl;
         for (TCPPacket &dupe : apd) {
-            /// if (is_acked(dupe)) continue;
             bool precedes = packet.id < dupe.id, same_acks = dupe.acknowledgement_number() == packet.acknowledgement_number();
             if (precedes && same_acks) {
                 bool overlap = dupe.overlaps(packet);
@@ -144,7 +143,7 @@ void Connection::filter_duplicates(const int dir) {
                 }
             }
         }
-        if (/*is_acked(packet) && *////
+        if (
             !is_duped(packet)) {
             if (VERBOSE_DEBUG) clog << "Appending packet #" << packet.id << "'s payload" << endl;
             payloads[dir] += packet.payload;

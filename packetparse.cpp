@@ -3,7 +3,6 @@
 #include "input_preprocessing.h"
 #include "packet_filtering.h"
 
-// Part 1, Part 2, Part 3, Extra credit
 #include "process_packets.h"
 
 
@@ -24,7 +23,7 @@ int main(int argc, char *argv[]) {
     // apply packet filter
     assert(apply_filter(&handle, flag_tcp, flag_smtp, flag_cookies));
 
-    // Part 1, Part 2, Part 3, Extra Credit
+    // parse, process, output
     process_packets(handle, flag_tcp, flag_smtp, flag_cookies);
 
 

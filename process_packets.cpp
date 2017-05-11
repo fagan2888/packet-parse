@@ -7,23 +7,19 @@
 
 void process_packets(pcap_t *handle_pointer, bool flag_tcp, bool flag_smtp, bool flag_cookies) {
 
-    // Part 1
-    if (!(flag_tcp | flag_smtp | flag_cookies)) {
+    // ETH-IP
+    if (!(flag_tcp | flag_smtp | flag_cookies))
         parsing_packets(handle_pointer);
-    }
 
-    // Part 2
-    if (flag_tcp) {
+    // ETH-IP-TCP
+    if (flag_tcp)
         tcp_flows(handle_pointer);
-    }
 
-    // Part 3
-    if (flag_smtp) {
+    // ETH-IP-TCP-SMTP
+    if (flag_smtp)
         email_traffic(handle_pointer);
-    }
 
-    // EC
-    if (flag_cookies) {
+    // ETH-IP-TCP-HTTP
+    if (flag_cookies)
         http_cookies(handle_pointer);
-    }
 }
