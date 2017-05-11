@@ -18,4 +18,4 @@ COMMAND="bin/packetparse examples/smtp.pcap"
 clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $COMMAND
 
 Check intermediate debug output (after running TCP-IP-TCP-SMTP):
-bash debug.sh
+bash scripts/debug.sh
