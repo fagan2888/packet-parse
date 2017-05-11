@@ -13,6 +13,7 @@ typedef unsigned long long ull;
 constexpr ull PRIME1 = 786699960817, PRIME2 = 822689925713, PRIME3 = 365128134863;
 
 const string INPUT_FILE_EXTENSION = ".pcap";
+const string OUTPUT_FOLDER = "output/";
 const string DEBUG_FOLDER = "debug/";
 
 const string VERBOSITY_FLAG = "-v";

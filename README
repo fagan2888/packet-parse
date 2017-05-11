@@ -5,15 +5,15 @@ Compile, build:
 clear; make clean; make all
 
 Run:
-bin/packetparse examples/smtp.pcap                             # ETH-IP
-bin/packetparse examples/sampleimf.pcap                        # ETH-IP
-bin/packetparse -t examples/smtp.pcap      && bash least.sh    # ETH-IP-TCP
-bin/packetparse -t examples/sampleimf.pcap && bash least.sh    # ETH-IP-TCP
-bin/packetparse -m examples/smtp.pcap      && bash smtp.sh     # ETH-IP-TCP-SMTP
-bin/packetparse -m examples/sampleimf.pcap && bash smtp.sh     # ETH-IP-TCP-SMTP
-bin/packetparse -c examples/cookie.pcap    && bash cookies.sh  # ETH-IP-TCP-HTTP
+bin/packetparse examples/smtp.pcap                                     # ETH-IP
+bin/packetparse examples/sampleimf.pcap                                # ETH-IP
+bin/packetparse -t examples/smtp.pcap      && bash scripts/least.sh    # ETH-IP-TCP
+bin/packetparse -t examples/sampleimf.pcap && bash scripts/least.sh    # ETH-IP-TCP
+bin/packetparse -m examples/smtp.pcap      && bash scripts/smtp.sh     # ETH-IP-TCP-SMTP
+bin/packetparse -m examples/sampleimf.pcap && bash scripts/smtp.sh     # ETH-IP-TCP-SMTP
+bin/packetparse -c examples/cookie.pcap    && bash scripts/cookies.sh  # ETH-IP-TCP-HTTP
 
-Verbose error-logging (very slow), e.g.:
+Verbose error-logging (very slow):
 COMMAND="bin/packetparse examples/smtp.pcap"
 clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $COMMAND
 

@@ -7,7 +7,3 @@ for (( c = 1; ; c++ )) do
   less "debug/$c.client"
   less "debug/$c.server"
 done
-
-
-
-

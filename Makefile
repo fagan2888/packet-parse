@@ -6,6 +6,8 @@ all: bin/packetparse
 
 clean:
 	rm -f $(OBJECTS) bin/packetparse
+	rm -f debug/*
+	rm -f output/*
 
 install:
 	sudo apt-get update

@@ -5,7 +5,6 @@
 
 #include "process_packets.h"
 
-
 int main(int argc, char *argv[]) {
 
     // parse command line

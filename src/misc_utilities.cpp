@@ -64,7 +64,7 @@ string trim(const string &str) {
 
 void file_output(const string &filename, const string &output) {
     ofstream file;
-    file.open(filename);
+    file.open(OUTPUT_FOLDER + filename);
     file << output;
     file.close();
 }

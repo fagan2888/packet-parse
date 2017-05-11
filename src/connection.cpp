@@ -172,7 +172,7 @@ unsigned int Connection::count_duplicates(const int dir) {
 
 void Connection::output_meta() {
     ofstream metadata_file;
-    metadata_file.open(to_string(order) + ".meta");
+    metadata_file.open(OUTPUT_FOLDER + to_string(order) + ".meta");
 
     metadata_file << "Initiator IP address: " << metadata[0].ip_address << endl;
     metadata_file << "Responder IP address: " << metadata[1].ip_address << endl;
