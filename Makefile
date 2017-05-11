@@ -1,12 +1,11 @@
-OBJECTS := misc_utilities.o smtp_parser.o input_preprocessing.o packet_filtering.o parsing_packets.o tcppacket.o hostdata.o connection.o tcp_flows.o email_traffic.o http_cookies.o process_packets.o
+OBJECTS := bin/misc_utilities.o bin/smtp_parser.o bin/input_preprocessing.o bin/packet_filtering.o bin/parsing_packets.o bin/tcppacket.o bin/hostdata.o bin/connection.o bin/tcp_flows.o bin/email_traffic.o bin/http_cookies.o bin/process_packets.o
 
 COMPILE := g++ -std=c++11 -lpcap -c
 
-
-all: packetparse;
+all: bin/packetparse
 
 clean:
-	rm -f $(OBJECTS) packetparse
+	rm -f $(OBJECTS) bin/packetparse
 
 install:
 	sudo apt-get update
@@ -15,47 +14,47 @@ install:
 	sudo apt-get install libpcap-dev
 
 
-misc_utilities.o: misc_utilities.cpp misc_utilities.h
-	$(COMPILE) misc_utilities.cpp
+bin/misc_utilities.o: src/misc_utilities.cpp src/misc_utilities.h
+	$(COMPILE) src/misc_utilities.cpp -o bin/misc_utilities.o
 
-smtp_parser.o: smtp_parser.cpp smtp_parser.h
-	$(COMPILE) smtp_parser.cpp
-
-
-input_preprocessing.o: input_preprocessing.cpp input_preprocessing.h
-	$(COMPILE) input_preprocessing.cpp
-
-packet_filtering.o: packet_filtering.cpp packet_filtering.h
-	$(COMPILE) packet_filtering.cpp
+bin/smtp_parser.o: src/smtp_parser.cpp src/smtp_parser.h
+	$(COMPILE) src/smtp_parser.cpp -o bin/smtp_parser.o
 
 
-parsing_packets.o: parsing_packets.cpp parsing_packets.h
-	$(COMPILE) parsing_packets.cpp
+bin/input_preprocessing.o: src/input_preprocessing.cpp src/input_preprocessing.h
+	$(COMPILE) src/input_preprocessing.cpp -o bin/input_preprocessing.o
+
+bin/packet_filtering.o: src/packet_filtering.cpp src/packet_filtering.h
+	$(COMPILE) src/packet_filtering.cpp -o bin/packet_filtering.o
 
 
-tcppacket.o: tcppacket.cpp tcppacket.h
-	$(COMPILE) tcppacket.cpp
-
-hostdata.o: hostdata.cpp hostdata.h
-	$(COMPILE) hostdata.cpp
-
-connection.o: connection.cpp connection.h
-	$(COMPILE) connection.cpp
-
-tcp_flows.o: tcp_flows.cpp tcp_flows.h
-	$(COMPILE) tcp_flows.cpp
+bin/parsing_packets.o: src/parsing_packets.cpp src/parsing_packets.h
+	$(COMPILE) src/parsing_packets.cpp -o bin/parsing_packets.o
 
 
-email_traffic.o: email_traffic.cpp email_traffic.h
-	$(COMPILE) email_traffic.cpp
+bin/tcppacket.o: src/tcppacket.cpp src/tcppacket.h
+	$(COMPILE) src/tcppacket.cpp -o bin/tcppacket.o
 
-http_cookies.o: http_cookies.cpp http_cookies.h
-	$(COMPILE) http_cookies.cpp
+bin/hostdata.o: src/hostdata.cpp src/hostdata.h
+	$(COMPILE) src/hostdata.cpp -o bin/hostdata.o
+
+bin/connection.o: src/connection.cpp src/connection.h
+	$(COMPILE) src/connection.cpp -o bin/connection.o
+
+bin/tcp_flows.o: src/tcp_flows.cpp src/tcp_flows.h
+	$(COMPILE) src/tcp_flows.cpp -o bin/tcp_flows.o
 
 
-process_packets.o: process_packets.cpp process_packets.h
-	$(COMPILE) process_packets.cpp
+bin/email_traffic.o: src/email_traffic.cpp src/email_traffic.h
+	$(COMPILE) src/email_traffic.cpp -o bin/email_traffic.o
+
+bin/http_cookies.o: src/http_cookies.cpp src/http_cookies.h
+	$(COMPILE) src/http_cookies.cpp -o bin/http_cookies.o
 
 
-packetparse: packetparse.cpp $(OBJECTS)
-	g++ -o packetparse packetparse.cpp $(OBJECTS) -std=c++11 -lpcap
+bin/process_packets.o: src/process_packets.cpp src/process_packets.h
+	$(COMPILE) src/process_packets.cpp -o bin/process_packets.o
+
+
+bin/packetparse: src/packetparse.cpp $(OBJECTS)
+	g++ -o bin/packetparse src/packetparse.cpp $(OBJECTS) -std=c++11 -lpcap

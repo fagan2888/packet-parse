@@ -5,22 +5,17 @@ Compile, build:
 clear; make clean; make all
 
 Run:
-./packetparse ./smtp.pcap                             # ETH-IP
-./packetparse ./sampleimf.pcap                        # ETH-IP
-./packetparse -t ./smtp.pcap      && bash least.sh    # ETH-IP-TCP
-./packetparse -t ./sampleimf.pcap && bash least.sh    # ETH-IP-TCP
-./packetparse -m ./smtp.pcap      && bash smtp.sh     # ETH-IP-TCP-SMTP
-./packetparse -m ./sampleimf.pcap && bash smtp.sh     # ETH-IP-TCP-SMTP
-./packetparse -c ./cookie.pcap    && bash cookies.sh  # ETH-IP-TCP-HTTP
+bin/packetparse ./smtp.pcap                             # ETH-IP
+bin/packetparse ./sampleimf.pcap                        # ETH-IP
+bin/packetparse -t ./smtp.pcap      && bash least.sh    # ETH-IP-TCP
+bin/packetparse -t ./sampleimf.pcap && bash least.sh    # ETH-IP-TCP
+bin/packetparse -m ./smtp.pcap      && bash smtp.sh     # ETH-IP-TCP-SMTP
+bin/packetparse -m ./sampleimf.pcap && bash smtp.sh     # ETH-IP-TCP-SMTP
+bin/packetparse -c ./cookie.pcap    && bash cookies.sh  # ETH-IP-TCP-HTTP
 
-Verbose error-logging (very slow):
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v    ./smtp.pcap      && bash least.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v    ./sampleimf.pcap && bash least.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v -t ./smtp.pcap      && bash least.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v -t ./sampleimf.pcap && bash least.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v -m ./smtp.pcap      && bash smtp.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v -m ./sampleimf.pcap && bash smtp.sh
-clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all ./packetparse -v -c ./cookie.pcap    && bash cookies.sh
+Verbose error-logging (very slow), e.g.:
+COMMAND = "bin/packetparse ./smtp.pcap"
+clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $COMMAND
 
 Check intermediate debug output (after running TCP-IP-TCP-SMTP):
 bash debug.sh
