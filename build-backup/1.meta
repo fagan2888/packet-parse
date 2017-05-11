@@ -1,0 +1,11 @@
+Initiator IP address: 192.168.1.4
+Responder IP address: 217.12.11.66
+Initiator port number: 1470
+Responder port number: 587
+Number of packets sent from initiator to responder: 48
+Number of packets sent from responder to initiator: 30
+Number of bytes sent from initiator to responder: 45068
+Number of bytes sent from responder to initiator: 285
+Number of duplicate packets sent from initiator to responder: 0
+Number of duplicate packets sent from responder to initiator: 0
+Closed before EOF was reached: Yes
