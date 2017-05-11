@@ -6,6 +6,7 @@
 #include "process_packets.h"
 
 int main(int argc, char *argv[]) {
+	ios_base::sync_with_stdio(false);
 
     // parse command line
     string input_filename;
