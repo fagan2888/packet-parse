@@ -5,19 +5,19 @@
 #include <sstream>
 
 string Email::format_sender() {
-    return "Sender: " + mail_from + "\n";
+    return "Sender: " + mail_from + '\n';
 }
 
 string Email::format_receiver() {
-    return "Receiver: " + rcpt_to + "\n";
+    return "Receiver: " + rcpt_to + '\n';
 }
 
 string Email::format_status() {
-    return "Accepted: " + (accepted ? string("yes") : string("no")) + "\n";
+    return "Accepted: " + (accepted ? string("yes") : string("no")) + '\n';
 }
 
 string Email::output() {
-    return format_sender() + "\n" + format_receiver() + "\n" + format_status() + "\n" + data;
+    return format_sender() + '\n' + format_receiver() + '\n' + format_status() + '\n' + data;
 }
 
 vector<string> PayloadParser::extract_addresses(const string &prefix) {
@@ -28,7 +28,7 @@ vector<string> PayloadParser::extract_addresses(const string &prefix) {
         if (begins_with(prefix, line)) {
             size_t offset = prefix.length();
             string address = line.substr(offset);
-            if (VERBOSE_DEBUG) clog << "<address line>" << prefix << address << "</address line>" << endl;
+            if (VERBOSE_DEBUG) clog << "<address line>" << prefix << address << "</address line>\n";
             addresses.push_back(address);
         }
     return addresses;
@@ -41,8 +41,8 @@ vector<string> PayloadParser::extract_data() {
     string line;
     while (getline(iss, line)) {
         if (begins_with(DATA_PREFIX, line)) {  // found "DATA"
-            if (VERBOSE_DEBUG) clog << "<DATA start line>" << line << "</DATA start line>" << endl;
-            temp_data = line + "\n";
+            if (VERBOSE_DEBUG) clog << "<DATA start line>" << line << "</DATA start line>\n";
+            temp_data = line + '\n';
             continue;
         }
         if (temp_data.empty()) continue;  // not between "DATA" and "."
@@ -50,7 +50,7 @@ vector<string> PayloadParser::extract_data() {
         if (line != EOD_1)
             temp_data += '\n';
         if (line == EOD_1 || line == EOD_2) {  // found "." or ".\n"
-            if (VERBOSE_DEBUG) clog << "<DATA end line>" << line << "</DATA end line>" << endl;
+            if (VERBOSE_DEBUG) clog << "<DATA end line>" << line << "</DATA end line>\n";
             data.push_back(temp_data);
             temp_data = "";
         }
@@ -64,18 +64,18 @@ vector<bool> PayloadParser::extract_statuses() {
     string line;
     while (getline(iss, line))
         if (begins_with(CODE_READY, line)) {
-            if (VERBOSE_DEBUG) clog << "<ready>" << line << "</ready>" << endl;
+            if (VERBOSE_DEBUG) clog << "<ready>" << line << "</ready>\n";
             if (!getline(iss, line)) {
-                if (VERBOSE_DEBUG) clog << "</noresponse>" << endl;
+                if (VERBOSE_DEBUG) clog << "</noresponse>\n";
                 statuses.push_back(false);
                 break;
             }
             if (begins_with(CODE_ACCEPTED, line)) {
-                if (VERBOSE_DEBUG) clog << "<accepted>" << line << "</accepted>" << endl;
+                if (VERBOSE_DEBUG) clog << "<accepted>" << line << "</accepted>\n";
                 statuses.push_back(true);
             }
         }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
     return statuses;
 }
 
@@ -88,7 +88,7 @@ PayloadParser::PayloadParser(const string &client, const string &server) {
     vector<bool> accepted = extract_statuses();
 
     int n = min(sender_addresses.size(), receiver_addresses.size());
-    if (VERBOSE_DEBUG) clog << "Number of messages: " << n << endl;
+    if (VERBOSE_DEBUG) clog << "Number of messages: " << n << '\n';
     emails.reserve(n);
     for (int i = 0; i < n; i++) {
         Email new_email;
@@ -99,10 +99,10 @@ PayloadParser::PayloadParser(const string &client, const string &server) {
         emails.push_back(new_email);
         const Email &latest_email = emails.back();
         if (VERBOSE_DEBUG) {
-            clog << "Sender: " << latest_email.mail_from << endl;
-            clog << "Receiver: " << latest_email.rcpt_to << endl;
-            clog << "Accepted: " << (latest_email.accepted ? string("yes") : string("no")) << endl;
-            clog << endl;
+            clog << "Sender: " << latest_email.mail_from << '\n';
+            clog << "Receiver: " << latest_email.rcpt_to << '\n';
+            clog << "Accepted: " << (latest_email.accepted ? string("yes") : string("no")) << '\n';
+            clog << '\n';
         }
     }
 }

@@ -87,7 +87,7 @@ void report_packet_type(const struct ip &header_internet, unsigned int &protocol
         }
     }
 
-    cout << endl;
+    cout << '\n';
 }
 
 void report_metadata_tcp(const unsigned char *packet, const unsigned int &protocol,
@@ -97,8 +97,8 @@ void report_metadata_tcp(const unsigned char *packet, const unsigned int &protoc
     const struct tcphdr *header_tcp = (struct tcphdr*) (packet + sizeof_header_ethernet + sizeof_header_internet);
     const unsigned int sizeof_header_tcp = header_tcp->th_off * SIZEOF_WORD;
 
-    cout << "TCP source port: " << ntohs(header_tcp->th_sport) << endl;
-    cout << "TCP destination port: " << ntohs(header_tcp->th_dport) << endl;
+    cout << "TCP source port: " << ntohs(header_tcp->th_sport) << '\n';
+    cout << "TCP destination port: " << ntohs(header_tcp->th_dport) << '\n';
 
     unsigned char *payload = (unsigned char *) (packet + sizeof_header_ethernet + sizeof_header_internet + sizeof_header_tcp);
     sizeof_payload = ntohs(header_internet->ip_len) - sizeof_header_internet - sizeof_header_tcp;
@@ -114,12 +114,12 @@ void report_metadata_tcp(const unsigned char *packet, const unsigned int &protoc
 
     unsigned int checksum_tcp = ntohs(header_tcp->th_sum);
     unsigned short checksum_calculated = ntohs(checksum((unsigned short*) checksum_data, sizeof_checksum_data, header_tcp->th_sum));
-    cout << "TCP checksum: " << checksum_tcp << (checksum_tcp == checksum_calculated ? " (valid)" : " (invalid)") << endl;
-    cout << "Calculated checksum: " << checksum_calculated << endl;
+    cout << "TCP checksum: " << checksum_tcp << (checksum_tcp == checksum_calculated ? " (valid)" : " (invalid)") << '\n';
+    cout << "Calculated checksum: " << checksum_calculated << '\n';
 
     free(checksum_data);
 
-    cout << "Payload size: " << sizeof_payload << " bytes" << endl;
+    cout << "Payload size: " << sizeof_payload << " bytes" << '\n';
 }
 
 void report_metadata_udp(const unsigned char *packet,
@@ -129,13 +129,13 @@ void report_metadata_udp(const unsigned char *packet,
     const struct udphdr *header_udp = (struct udphdr*) (packet + sizeof_header_ethernet + sizeof_header_internet);
     const unsigned int sizeof_header_udp = sizeof(struct udphdr);
 
-    cout << "UDP source port: " << ntohs(header_udp->uh_sport) << endl;
-    cout << "UDP destination port: " << ntohs(header_udp->uh_dport) << endl;
+    cout << "UDP source port: " << ntohs(header_udp->uh_sport) << '\n';
+    cout << "UDP destination port: " << ntohs(header_udp->uh_dport) << '\n';
 
     unsigned char *payload = (unsigned char *) (packet + sizeof_header_ethernet + sizeof_header_internet + sizeof_header_udp);
     sizeof_payload = ntohs(header_internet->ip_len) - sizeof_header_internet - sizeof_header_udp;
 
-    cout << "Payload size: " << sizeof_payload << " bytes" << endl;
+    cout << "Payload size: " << sizeof_payload << " bytes" << '\n';
 }
 
 void parsing_packets(pcap_t *handle_pointer) {
@@ -145,7 +145,7 @@ void parsing_packets(pcap_t *handle_pointer) {
     struct pcap_pkthdr header_packet;
 
     while ((packet = pcap_next(handle_pointer, &header_packet)) != NULL) {
-        cout << "#" << ++packet_number << endl;
+        cout << "#" << ++packet_number << '\n';
 
         const struct ether_header *header_ethernet = (struct ether_header*) packet;
         const unsigned int sizeof_header_ethernet = sizeof(struct ether_header);
@@ -156,11 +156,11 @@ void parsing_packets(pcap_t *handle_pointer) {
         unsigned int protocol = 0;
         report_packet_type(*header_internet, protocol, counter);
 
-        cout << "Source MAC address: " << format_address_mac(header_ethernet->ether_shost) << endl;
-        cout << "Destination MAC address: " << format_address_mac(header_ethernet->ether_dhost) << endl;
+        cout << "Source MAC address: " << format_address_mac(header_ethernet->ether_shost) << '\n';
+        cout << "Destination MAC address: " << format_address_mac(header_ethernet->ether_dhost) << '\n';
 
-        cout << "Source IP address: " << inet_ntoa(header_internet->ip_src) << endl;
-        cout << "Destination IP address: " << inet_ntoa(header_internet->ip_dst) << endl;
+        cout << "Source IP address: " << inet_ntoa(header_internet->ip_src) << '\n';
+        cout << "Destination IP address: " << inet_ntoa(header_internet->ip_dst) << '\n';
 
         unsigned int sizeof_payload = ntohs(header_internet->ip_len) - sizeof_header_internet;  // default (other)
 
@@ -178,15 +178,15 @@ void parsing_packets(pcap_t *handle_pointer) {
                                 sizeof_payload);
         }
 
-        cout << endl;
+        cout << '\n';
     }
 
-    cout << endl;
+    cout << '\n';
     counter.total = counter.tcp + counter.udp + counter.other;
-    cout << "Total number of packets processed: " << counter.total << endl;
-    cout << "TDP packets: " << counter.tcp << endl;
-    cout << "UDP packets: " << counter.udp << endl;
-    cout << "Non-TCP/UDP packets: " << counter.other << endl;
+    cout << "Total number of packets processed: " << counter.total << '\n';
+    cout << "TDP packets: " << counter.tcp << '\n';
+    cout << "UDP packets: " << counter.udp << '\n';
+    cout << "Non-TCP/UDP packets: " << counter.other << '\n';
 
-    cout << endl;
+    cout << '\n';
 }

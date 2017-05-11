@@ -41,7 +41,7 @@ string TCPPacket::preview() const {
 void TCPPacket::save_to_file() const {
     ofstream output_file;
     output_file.open(DEBUG_FOLDER + to_string(id) + ".packet");
-    output_file << summarize_metadata() << endl;
+    output_file << summarize_metadata() << '\n';
     output_file << payload;
     output_file.close();
 }
@@ -141,7 +141,7 @@ unsigned long TCPPacket::acknowledgement_number() const {
 
 bool TCPPacket::connection_start() const {
     if (!is_syn() && acknowledgement_number() == 0)
-        cerr << "Warning: non-SYN packet with acknowledgement number 0" << endl;
+        cerr << "Warning: non-SYN packet with acknowledgement number 0\n";
     return is_syn() && acknowledgement_number() == 0;
 }
 
@@ -196,14 +196,14 @@ string TCPPacket::flags_to_string() const {
 
 string TCPPacket::summarize_metadata() const {
     ostringstream oss;
-    oss << "TCP packet #: " << id << endl;
-    oss << "TCP source port: " << source_port() << endl;
-    oss << "TCP destination port: " << destination_port() << endl;
-    oss << "Sequence number: " << sequence_number() << endl;
-    oss << "Next sequence number: " << next_sequence_number() << endl;
-    oss << "Acknowledgement number: " << acknowledgement_number() << endl;
-    oss << flags_to_string() << endl;
-    oss << "Payload size: " << sizeof_payload << " bytes" << endl;
-    oss << "Number of bytes sent: " << sizeof_packet << endl;
+    oss << "TCP packet #: " << id << '\n';
+    oss << "TCP source port: " << source_port() << '\n';
+    oss << "TCP destination port: " << destination_port() << '\n';
+    oss << "Sequence number: " << sequence_number() << '\n';
+    oss << "Next sequence number: " << next_sequence_number() << '\n';
+    oss << "Acknowledgement number: " << acknowledgement_number() << '\n';
+    oss << flags_to_string() << '\n';
+    oss << "Payload size: " << sizeof_payload << " bytes" << '\n';
+    oss << "Number of bytes sent: " << sizeof_packet << '\n';
     return oss.str();
 }

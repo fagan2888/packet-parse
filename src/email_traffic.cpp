@@ -30,22 +30,22 @@ void preprocess_smtp(const unsigned int id,
 
     clog << packet_tcp.summarize_metadata();
     if (VERBOSE_DEBUG) {
-        clog << "<payload>" << endl;
-        clog << packet_tcp.payload << endl;
-        clog << "</payload>" << endl;
+        clog << "<payload>\n";
+        clog << packet_tcp.payload << '\n';
+        clog << "</payload>\n";
     }
 
     packet_list.push_back(packet_tcp);
 
     if (packet_tcp.connection_start()) {
-        if (VERBOSE_DEBUG) clog << "Opened a connection." << endl;
+        if (VERBOSE_DEBUG) clog << "Opened a connection.\n";
 
         HostData initiator = {source_address, raw_source, packet_tcp.source_port()};
         HostData responder = {destination_address, raw_destination, packet_tcp.destination_port()};
         connection = Connection(1, initiator, responder, packet_tcp);
     }
 
-    clog << endl;
+    clog << '\n';
 }
 
 void email_traffic(pcap_t *handle_pointer) {
@@ -70,8 +70,8 @@ void email_traffic(pcap_t *handle_pointer) {
 
         const string source_address(inet_ntoa(header_internet->ip_src));
         const string destination_address(inet_ntoa(header_internet->ip_dst));
-        clog << "Source IP address: " << source_address << endl;
-        clog << "Destination IP address: " << destination_address << endl;
+        clog << "Source IP address: " << source_address << '\n';
+        clog << "Destination IP address: " << destination_address << '\n';
 
         unsigned int sizeof_packet = ntohs(header_internet->ip_len) - sizeof_header_internet;
 
@@ -85,14 +85,14 @@ void email_traffic(pcap_t *handle_pointer) {
                         packet_list,
                         connection);
     }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 
     // check handshakes
     if (VERBOSE_DEBUG) assert(!connection.lead_packets[0].dummy());
     syn_ack(connection, packet_list);
     if (connection.lead_packets[1].dummy() || !handshake_completed(connection, packet_list)) {
-        if (VERBOSE_DEBUG) clog << "Found broken handshake (no SYN-ACK)!" << endl;
-    } else if (VERBOSE_DEBUG) clog << "handshake successful" << endl;
+        if (VERBOSE_DEBUG) clog << "Found broken handshake (no SYN-ACK)!\n";
+    } else if (VERBOSE_DEBUG) clog << "handshake successful\n";
 
     // add packets to connection streams, check for ACKs
     connection.bfs_insert(packet_list);
@@ -100,7 +100,7 @@ void email_traffic(pcap_t *handle_pointer) {
     connection.sort_packets();
     connection.generate_metadata();
     connection.output_data();
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 
     // intermediate debug data
     connection.output_emails();

@@ -27,14 +27,14 @@ void preprocess_http(const unsigned int id,
 
     clog << packet_tcp.summarize_metadata();
     if (VERBOSE_DEBUG) {
-        clog << "<payload>" << endl;
-        clog << packet_tcp.payload << endl;
-        clog << "</payload>" << endl;
+        clog << "<payload>\n";
+        clog << packet_tcp.payload << '\n';
+        clog << "</payload>\n";
     }
 
     packet_list.push_back(packet_tcp);
 
-    clog << endl;
+    clog << '\n';
 }
 
 queue<string> extract_cookies(const TCPPacket &packet) {
@@ -90,8 +90,8 @@ void http_cookies(pcap_t *handle_pointer) {
 
         const string source_address(inet_ntoa(header_internet->ip_src));
         const string destination_address(inet_ntoa(header_internet->ip_dst));
-        clog << "Source IP address: " << source_address << endl;
-        clog << "Destination IP address: " << destination_address << endl;
+        clog << "Source IP address: " << source_address << '\n';
+        clog << "Destination IP address: " << destination_address << '\n';
 
         unsigned int sizeof_packet = ntohs(header_internet->ip_len) - sizeof_header_internet;
 
@@ -104,7 +104,7 @@ void http_cookies(pcap_t *handle_pointer) {
                         sizeof_packet,
                         packet_list);
     }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 
     // process HTTP cookies
     int num_cookies = 0;
@@ -117,5 +117,5 @@ void http_cookies(pcap_t *handle_pointer) {
         }
     }
 
-    clog << "Found " << num_cookies << " cookies" << endl;
+    clog << "Found " << num_cookies << " cookies\n";
 }

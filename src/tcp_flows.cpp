@@ -32,17 +32,17 @@ void preprocess_tcp(const unsigned int id,
 
     clog << packet_tcp.summarize_metadata();
     if (VERBOSE_DEBUG) {
-        clog << "<payload>" << endl;
-        clog << packet_tcp.payload << endl;
-        clog << "</payload>" << endl;
+        clog << "<payload>\n";
+        clog << packet_tcp.payload << '\n';
+        clog << "</payload>\n";
     }
 
     packet_lists[packet_tcp.hashcode].push_back(packet_tcp);
-    if (VERBOSE_DEBUG) clog << "hashcheck(" << packet_tcp.hashcode << "): " << packet_lists[packet_tcp.hashcode].size() << endl;
+    if (VERBOSE_DEBUG) clog << "hashcheck(" << packet_tcp.hashcode << "): " << packet_lists[packet_tcp.hashcode].size() << '\n';
 
     if (packet_tcp.connection_start()) {
         ++order;
-        if (VERBOSE_DEBUG) clog << "total number of connections opened so far: " << order << endl;
+        if (VERBOSE_DEBUG) clog << "total number of connections opened so far: " << order << '\n';
 
         hashcodes.push_back(packet_tcp.hashcode);
         if (VERBOSE_DEBUG) assert(order == hashcodes.size());
@@ -53,7 +53,7 @@ void preprocess_tcp(const unsigned int id,
         connections[packet_tcp.hashcode].push_back(new_connection);
     }
 
-    clog << endl;
+    clog << '\n';
 }
 
 void syn_ack(Connection &connection, const vector<TCPPacket> &packet_list) {
@@ -96,8 +96,8 @@ void tcp_flows(pcap_t *handle_pointer) {
 
         const string source_address(inet_ntoa(header_internet->ip_src));
         const string destination_address(inet_ntoa(header_internet->ip_dst));
-        clog << "Source IP address: " << source_address << endl;
-        clog << "Destination IP address: " << destination_address << endl;
+        clog << "Source IP address: " << source_address << '\n';
+        clog << "Destination IP address: " << destination_address << '\n';
 
         unsigned int sizeof_packet = ntohs(header_internet->ip_len) - sizeof_header_internet;
 
@@ -111,7 +111,7 @@ void tcp_flows(pcap_t *handle_pointer) {
                        packet_lists,
                        connections, order, hashcodes);
     }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 
     // check handshakes
     for (int i = 1; i <= order; i++) {
@@ -123,13 +123,13 @@ void tcp_flows(pcap_t *handle_pointer) {
             if (VERBOSE_DEBUG) assert(!connection.lead_packets[0].dummy());
             syn_ack(connection, packet_list);
             if (connection.lead_packets[1].dummy() || !handshake_completed(connection, packet_list)) {
-                if (VERBOSE_DEBUG) clog << "Found broken handshake (no SYN-ACK)!" << endl;
+                if (VERBOSE_DEBUG) clog << "Found broken handshake (no SYN-ACK)!" << '\n';
                 swap(hashcodes[i], hashcodes[order]);
                 packet_lists.erase(hashcode);
                 iter = hashed_connections.erase(iter);
                 iter--;
                 order--;
-            } else if (VERBOSE_DEBUG) clog << "handshake " << order << " successful" << endl;
+            } else if (VERBOSE_DEBUG) clog << "handshake " << order << " successful\n";
         }
     }
 
@@ -143,7 +143,7 @@ void tcp_flows(pcap_t *handle_pointer) {
             connection.generate_metadata();
             connection.output_data();
         }
-        if (VERBOSE_DEBUG) clog << endl;
+        if (VERBOSE_DEBUG) clog << '\n';
     }
 }
 

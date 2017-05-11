@@ -7,7 +7,7 @@
 using namespace std;
 
 #undef assert
-#define assert(condition) if (!condition) {cerr << "Assertion failed!" << endl; exit(EXIT_FAILURE);}
+#define assert(condition) if (!condition) {cerr << "Assertion failed!\n"; exit(EXIT_FAILURE);}
 
 
 #endif // SAFE_ASSERT_H

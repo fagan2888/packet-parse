@@ -37,11 +37,11 @@ int Connection::direction(const TCPPacket &packet) const {
 
 void Connection::print_direction(const unsigned int dir) {
     if (dir == 0)
-        clog << "[initiator -> responder]" << endl;
+        clog << "[initiator -> responder]\n";
     else if (dir == 1)
-        clog << "[responder -> initiator]" << endl;
+        clog << "[responder -> initiator]\n";
     else
-        cerr << WARNING_WRONG_DIRECTION << endl;
+        cerr << WARNING_WRONG_DIRECTION << '\n';
 }
 
 void Connection::syn_ack(const TCPPacket& packet) {
@@ -68,13 +68,13 @@ void Connection::bfs_insert(vector<TCPPacket> &packet_list) {
                     if (to->follows(*from)) {
                         visited[i] = true;
                         check.push(to);
-                        if (VERBOSE_DEBUG) clog << from->id << " -?> " << to->id << endl;
+                        if (VERBOSE_DEBUG) clog << from->id << " -?> " << to->id << '\n';
                     }
                 }
         }
-        if (VERBOSE_DEBUG) clog << endl;
+        if (VERBOSE_DEBUG) clog << '\n';
     }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 }
 
 void Connection::check_acknowledgements() {
@@ -85,7 +85,7 @@ void Connection::check_acknowledgements() {
         for (const TCPPacket &from : all_packets[dir]) {
             for (const TCPPacket& to : all_packets[rid])
                 if (to.acknowledges(from)) {
-                    if (VERBOSE_DEBUG) clog << from.id << "<ACK-" << to.id << endl;
+                    if (VERBOSE_DEBUG) clog << from.id << "<ACK-" << to.id << '\n';
                     acked_ids.insert(from.id);
                     num_acked++;
                     goto done;
@@ -93,13 +93,13 @@ void Connection::check_acknowledgements() {
             done:;
         }
         if (VERBOSE_DEBUG) {
-            clog << "acked_packets(" << num_acked << ") <= all_packets(" << all_packets[dir].size() << ")" << endl;
+            clog << "acked_packets(" << num_acked << ") <= all_packets(" << all_packets[dir].size() << ")\n";
             bool ok = num_acked <= all_packets[dir].size();
             assert(ok);
         }
-        if (VERBOSE_DEBUG) clog << endl;
+        if (VERBOSE_DEBUG) clog << '\n';
     }
-    if (VERBOSE_DEBUG) clog << endl;
+    if (VERBOSE_DEBUG) clog << '\n';
 }
 
 void Connection::sort_packets() {
@@ -129,15 +129,15 @@ void Connection::filter_duplicates(const int dir) {
     int n = apd.size();
     payloads[dir] = "";
     for (TCPPacket &packet : apd) {
-        if (VERBOSE_DEBUG) clog << "checking duplicates: #" << packet.id << endl;
+        if (VERBOSE_DEBUG) clog << "checking duplicates: #" << packet.id << '\n';
         for (TCPPacket &dupe : apd) {
             bool precedes = packet.id < dupe.id, same_acks = dupe.acknowledgement_number() == packet.acknowledgement_number();
             if (precedes && same_acks) {
                 bool overlap = dupe.overlaps(packet);
                 double similarity = dupe.similarity(packet);
-                if (VERBOSE_DEBUG) clog << "against " << packet.id << " (similarity = " << similarity << (overlap ? ", overlapping" : "") << ")" <<  endl;
+                if (VERBOSE_DEBUG) clog << "against " << packet.id << " (similarity = " << similarity << (overlap ? ", overlapping" : "") << ")\n";
                 if (dupe.similar(packet) && overlap) {
-                    if (VERBOSE_DEBUG) clog << packet.id << " retransmitted by " << dupe.id << endl;
+                    if (VERBOSE_DEBUG) clog << packet.id << " retransmitted by " << dupe.id << '\n';
                     duplicate.insert(packet.id);
                     break;
                 }
@@ -145,7 +145,7 @@ void Connection::filter_duplicates(const int dir) {
         }
         if (
             !is_duped(packet)) {
-            if (VERBOSE_DEBUG) clog << "Appending packet #" << packet.id << "'s payload" << endl;
+            if (VERBOSE_DEBUG) clog << "Appending packet #" << packet.id << "'s payload\n";
             payloads[dir] += packet.payload;
         }
     }
@@ -159,7 +159,7 @@ void Connection::generate_metadata() {
             check_closed(packet);
         }
         filter_duplicates(dir);
-        if (VERBOSE_DEBUG) clog << endl;
+        if (VERBOSE_DEBUG) clog << '\n';
     }
 }
 
@@ -174,20 +174,20 @@ void Connection::output_meta() {
     ofstream metadata_file;
     metadata_file.open(OUTPUT_FOLDER + to_string(order) + ".meta");
 
-    metadata_file << "Initiator IP address: " << metadata[0].ip_address << endl;
-    metadata_file << "Responder IP address: " << metadata[1].ip_address << endl;
+    metadata_file << "Initiator IP address: " << metadata[0].ip_address << '\n';
+    metadata_file << "Responder IP address: " << metadata[1].ip_address << '\n';
 
-    metadata_file << "Initiator port number: " << metadata[0].port_number << endl;
-    metadata_file << "Responder port number: " << metadata[1].port_number << endl;
+    metadata_file << "Initiator port number: " << metadata[0].port_number << '\n';
+    metadata_file << "Responder port number: " << metadata[1].port_number << '\n';
 
-    metadata_file << "Number of packets sent from initiator to responder: " << all_packets[0].size() << endl;
-    metadata_file << "Number of packets sent from responder to initiator: " << all_packets[1].size() << endl;
+    metadata_file << "Number of packets sent from initiator to responder: " << all_packets[0].size() << '\n';
+    metadata_file << "Number of packets sent from responder to initiator: " << all_packets[1].size() << '\n';
 
-    metadata_file << "Number of bytes sent from initiator to responder: " << bytes_sent[0] << endl;
-    metadata_file << "Number of bytes sent from responder to initiator: " << bytes_sent[1] << endl;
+    metadata_file << "Number of bytes sent from initiator to responder: " << bytes_sent[0] << '\n';
+    metadata_file << "Number of bytes sent from responder to initiator: " << bytes_sent[1] << '\n';
 
-    metadata_file << "Number of duplicate packets sent from initiator to responder: " << count_duplicates(0) << endl;
-    metadata_file << "Number of duplicate packets sent from responder to initiator: " << count_duplicates(1) << endl;
+    metadata_file << "Number of duplicate packets sent from initiator to responder: " << count_duplicates(0) << '\n';
+    metadata_file << "Number of duplicate packets sent from responder to initiator: " << count_duplicates(1) << '\n';
 
     metadata_file << "Closed before EOF was reached: ";
     if (closed)
@@ -195,7 +195,7 @@ void Connection::output_meta() {
     else
         metadata_file << "No";
 
-    metadata_file << endl;
+    metadata_file << '\n';
     metadata_file.close();
 }
 

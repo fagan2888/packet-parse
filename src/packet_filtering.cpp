@@ -28,7 +28,7 @@ string generate_filter_expression(bool flag_tcp, bool flag_smtp, bool flag_cooki
 
 bool compile_filter_program(pcap_t **handle_pointer, const string &filter_expression, bpf_program &filter_program) {
     if (pcap_compile(*handle_pointer, &filter_program, filter_expression.c_str(), 0, 0) == -1) {
-        cerr << "Failed to compile packet filter: " << filter_expression << endl;
+        cerr << "Failed to compile packet filter: " << filter_expression << '\n';
         cerr << pcap_geterr(*handle_pointer);
         return false;
     }
@@ -39,7 +39,7 @@ bool compile_filter_program(pcap_t **handle_pointer, const string &filter_expres
 
 bool set_filter(pcap_t **handle_pointer, const string &filter_expression, bpf_program &filter_program) {
     if (pcap_setfilter(*handle_pointer, &filter_program) == -1) {
-        cout << "Failed to install packet filter: " << filter_expression << endl;
+        cout << "Failed to install packet filter: " << filter_expression << '\n';
         cerr << pcap_geterr(*handle_pointer);
         return false;
     }

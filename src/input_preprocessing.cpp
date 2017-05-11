@@ -18,7 +18,7 @@ bool parse_command_line(int argc, char *argv[], string &input_filename, bool &fl
         flag_cookies |= (argument == COOKIE_FLAG);
         if (argument.rfind(INPUT_FILE_EXTENSION) + INPUT_FILE_EXTENSION.length() == argument.length()) {
             if (!input_filename.empty()) {
-                cerr << "Please specify only one pcap file as input." << endl;
+                cerr << "Please specify only one pcap file as input.\n";
                 return false;
             }
             input_filename = argument;
@@ -27,7 +27,7 @@ bool parse_command_line(int argc, char *argv[], string &input_filename, bool &fl
 
     // check input file specification
     if (input_filename.empty()) {
-        cerr << "Usage: " << argv[0] << " {input.pcap}" << endl;
+        cerr << "Usage: " << argv[0] << " {input.pcap}\n";
         return false;
     }
 
@@ -40,7 +40,7 @@ bool read_input_pcap(const string &input_filename, pcap_t **handle_pointer) {
     *handle_pointer = pcap_open_offline(input_filename.c_str(), errbuf);
 
     if (*handle_pointer == NULL) {
-        cerr << "Cannot process pcap file " << input_filename << ": " << errbuf << endl;
+        cerr << "Cannot process pcap file " << input_filename << ": " << errbuf << '\n';
         return false;
     }
 
@@ -53,7 +53,7 @@ bool check_header_type(pcap_t *handle) {
 
     if (header_type != DLT_EN10MB) {
         cerr << "Unable to handle header type " << pcap_datalink_val_to_name(header_type);
-        cerr << " (" << pcap_datalink_val_to_description(header_type) << ")" << endl;
+        cerr << " (" << pcap_datalink_val_to_description(header_type) << ")" << '\n';
         return false;
     }
 
