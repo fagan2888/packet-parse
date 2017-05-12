@@ -13,9 +13,9 @@ bin/packetparse -m examples/smtp.pcap      && bash scripts/smtp.sh     # ETH-IP-
 bin/packetparse -m examples/sampleimf.pcap && bash scripts/smtp.sh     # ETH-IP-TCP-SMTP
 bin/packetparse -c examples/cookie.pcap    && bash scripts/cookies.sh  # ETH-IP-TCP-HTTP
 
-Verbose error-logging (very slow):
+Verbose error-logging:
 COMMAND="bin/packetparse examples/smtp.pcap"
 clear; make clean; make all && valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all $COMMAND
 
-Check intermediate debug output (after running TCP-IP-TCP-SMTP):
+Check intermediate debug output (after running ETH-IP-TCP-SMTP):
 bash scripts/debug.sh
