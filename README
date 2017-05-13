@@ -2,7 +2,7 @@ Install:
 make install
 
 Compile, build:
-clear; make clean; make all
+make all
 
 Run:
 bin/packetparse examples/smtp.pcap                                     # ETH-IP
