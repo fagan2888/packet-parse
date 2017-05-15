@@ -59,4 +59,4 @@ bin/process_packets.o: src/process_packets.cpp src/process_packets.h
 
 
 bin/packetparse: src/packetparse.cpp $(OBJECTS)
-	g++ -o bin/packetparse src/packetparse.cpp $(OBJECTS) -std=c++11 -lpcap
+	g++ -std=c++11 -O3 -o bin/packetparse src/packetparse.cpp $(OBJECTS) -std=c++11 -lpcap
