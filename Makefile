@@ -1,6 +1,6 @@
 OBJECTS := bin/misc_utilities.o bin/smtp_parser.o bin/input_preprocessing.o bin/packet_filtering.o bin/parsing_packets.o bin/tcppacket.o bin/hostdata.o bin/connection.o bin/tcp_flows.o bin/email_traffic.o bin/http_cookies.o bin/process_packets.o
 
-COMPILE := g++ -std=c++11 -lpcap -c
+COMPILE := g++ -std=c++11 -lpcap -O3 -c
 
 all: bin/packetparse
 
